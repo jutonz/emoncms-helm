@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: db
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      name: db
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+      - env:
+        - name: MQTT_BASETOPIC
+          value: emon
+        - name: MQTT_ENABLED
+          value: "false"
+        - name: MQTT_HOST
+          value: localhost
+        - name: MQTT_PASSWORD
+          value: YOUR_MQTT_PASSWORD
+        - name: MQTT_USER
+          value: YOUR_MQTT_USER
+        - name: MYSQL_DATABASE
+          value: {{ .Values.db.mysql_database }}
+        - name: MYSQL_HOST
+          value: mysql
+        - name: MYSQL_PASSWORD
+          value: {{ .Values.db.mysql_password }}
+        - name: MYSQL_PORT
+          value: "3306"
+        - name: MYSQL_RANDOM_ROOT_PASSWORD
+          value: {{ .Values.db.mysql_random_root_password }}
+        - name: MYSQL_USER
+          value: {{ .Values.db.mysql_user }}
+        - name: REDIS_ENABLED
+          value: {{ .Values.db.redis_enabled }}
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PREFIX
+          value: {{ .Values.db.redis_prefix }}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: emoncmsdocker-emon-db-data
+        image: mysql:5.6
+        name: db
+      restartPolicy: Always
+      volumes:
+      - name: emoncmsdocker-emon-db-data
+        persistentVolumeClaim:
+          claimName: emoncmsdocker-emon-db-data
