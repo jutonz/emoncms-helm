@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      name: redis
+  template:
+    metadata:
+      labels:
+        name: redis
+    spec:
+      containers:
+      - image: redis:3.0.7
+        name: redis
+        volumeMounts:
+        - mountPath: /data
+          name: emoncmsdocker-emon-redis-data
+      restartPolicy: Always
+      volumes:
+      - name: emoncmsdocker-emon-redis-data
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: emoncmsdocker-emon-redis-data
+        {{- else }}
+        emptyDir: {}
+        {{- end }}

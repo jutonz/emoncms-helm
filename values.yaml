@@ -2,12 +2,21 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace: emoncms-test
-
 db:
   mysql_database: emoncms
   mysql_password: YOUR_SECURE_PASSWORD
   mysql_user: emoncms
-  mysql_random_root_password: "yes"
-  redis_enabled: true
-  redis_prefix: '''emoncms'''
+  mysql_random_root_password: yes
+  redis_enabled: "true"
+
+ingress:
+  enabled: false
+  hosts: ["emoncms.org"]
+
+persistence:
+  enabled: false
+  dbSize: 10Gi
+  phpfiwaSize: 10Gi
+  phpfinaSize: 10Gi
+  phptimeseriesSize: 10Gi
+  redisSize: 100Mi

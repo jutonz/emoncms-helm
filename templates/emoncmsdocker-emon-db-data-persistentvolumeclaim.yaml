@@ -1,0 +1,14 @@
+{{- if .Values.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: emoncmsdocker-emon-db-data
+spec:
+  accessModes: ["ReadWriteOnce"]
+  {{- if .Values.persistence.storageClassName }}
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.dbSize }}
+{{- end }}

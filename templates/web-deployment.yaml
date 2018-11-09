@@ -1,18 +1,18 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: db
+  name: web
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      name: db
+      name: web
   template:
     metadata:
       labels:
-        name: db
+        name: web
     spec:
       containers:
       - env:
@@ -38,6 +38,8 @@ spec:
           value: {{ .Values.db.mysql_random_root_password | quote }}
         - name: MYSQL_USER
           value: {{ .Values.db.mysql_user }}
+        - name: PRODUCTION
+          value: "true"
         - name: REDIS_ENABLED
           value: {{ .Values.db.redis_enabled | quote }}
         - name: REDIS_HOST
@@ -46,17 +48,37 @@ spec:
           value: "6379"
         - name: REDIS_PREFIX
           value: '''emoncms'''
+        image: openenergymonitor/emoncms:latest
+        name: web
+        ports:
+        - containerPort: 80
         volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: emoncmsdocker-emon-db-data
-        image: mysql:5.6
-        name: db
+        - mountPath: /var/lib/phpfiwa
+          name: emoncmsdocker-emon-phpfiwa
+        - mountPath: /var/lib/phpfina
+          name: emoncmsdocker-emon-phpfina
+        - mountPath: /var/lib/phptimeseries
+          name: emoncmsdocker-emon-phptimeseries
       restartPolicy: Always
       volumes:
-      - name: emoncmsdocker-emon-db-data
-      {{- if .Values.persistence.enabled }}
+      - name: emoncmsdocker-emon-phpfiwa
+        {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: emoncmsdocker-emon-db-data
-      {{- else }}
+          claimName: emoncmsdocker-emon-phpfiwa
+        {{- else }}
         emptyDir: {}
-      {{- end -}}
+        {{- end }}
+      - name: emoncmsdocker-emon-phpfina
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: emoncmsdocker-emon-phpfina
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      - name: emoncmsdocker-emon-phptimeseries
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: emoncmsdocker-emon-phptimeseries
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
