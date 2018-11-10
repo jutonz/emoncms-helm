@@ -3,11 +3,11 @@
 # Declare variables to be passed into your templates.
 
 db:
-  mysql_database: emoncms
-  mysql_password: YOUR_SECURE_PASSWORD
-  mysql_user: emoncms
-  mysql_random_root_password: yes
-  redis_enabled: "true"
+  mysqlDatabase: emoncms
+  mysqlPassword: YOUR_SECURE_PASSWORD
+  mysqlUser: emoncms
+  mysqlRandomRootPassword: yes
+  redisEnabled: "true"
 
 ingress:
   enabled: false
@@ -15,6 +15,7 @@ ingress:
 
 persistence:
   enabled: false
+  storageClassName: false
   dbSize: 10Gi
   phpfiwaSize: 10Gi
   phpfinaSize: 10Gi

@@ -27,21 +27,21 @@ spec:
         - name: MQTT_USER
           value: YOUR_MQTT_USER
         - name: MYSQL_DATABASE
-          value: {{ .Values.db.mysql_database }}
+          value: {{ .Values.db.mysqlDatabase }}
         - name: MYSQL_HOST
           value: db
         - name: MYSQL_PASSWORD
-          value: {{ .Values.db.mysql_password }}
+          value: {{ .Values.db.mysqlPassword }}
         - name: MYSQL_PORT
           value: "3306"
         - name: MYSQL_RANDOM_ROOT_PASSWORD
-          value: {{ .Values.db.mysql_random_root_password | quote }}
+          value: {{ .Values.db.mysqlRandomRootPassword | quote }}
         - name: MYSQL_USER
-          value: {{ .Values.db.mysql_user }}
+          value: {{ .Values.db.mysqlUser }}
         - name: PRODUCTION
           value: "true"
         - name: REDIS_ENABLED
-          value: {{ .Values.db.redis_enabled | quote }}
+          value: {{ .Values.db.redisEnabled | quote }}
         - name: REDIS_HOST
           value: redis
         - name: REDIS_PORT
