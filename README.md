@@ -35,7 +35,7 @@ their default values.
 | `db.mysqlRandomRootPassword`    | Randomize the root password for the mysql container  | `true`                 | 
 | `db.redisEnabled`               | Use redis as a temporary cache to decrease db writes | `true`                 | 
 | `ingress.enabled`               | Expose the deployment with an ingress                | `false`                | 
-| `ingress.hosts`                 | The domain on which the app will be exposed          | `emoncms.org`          | 
+| `ingress.hosts`                 | The domain on which the app will be exposed          | `{emoncms.org}`        | 
 | `persistence.enabled`           | Whether to store data on volumes outside images      | `false`                | 
 | `persistence.storageClassName`  | Custom storage class name                            | `false`                | 
 | `persistence.dbSize`            | How large to make the volume for mysql               | `10Gi`                 | 
