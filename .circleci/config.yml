@@ -28,6 +28,15 @@ jobs:
         root: .
         paths: out
 
+  publish:
+    docker:
+    - image: cibuilds/github:0.10
+    steps:
+    - checkout
+    - attach_workspace:
+        at: /tmp/workspace
+    - run: ls -alh /tmp/workspace/
+
 workflows:
   version: 2
   lint:
@@ -35,3 +44,5 @@ workflows:
     - lint
     - package:
         requires: ["lint"]
+    - publish:
+        requires: ["package"]
