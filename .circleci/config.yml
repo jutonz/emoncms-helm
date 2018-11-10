@@ -38,14 +38,13 @@ jobs:
     - run:
         name: Publish to github
         command: |
-          VERSION=0.1.0
            ghr \
            -t ${GITHUB_TOKEN} \
            -u ${CIRCLE_PROJECT_USERNAME} \
            -r ${CIRCLE_PROJECT_REPONAME} \
            -c ${CIRCLE_SHA1} \
            -delete \
-           ${VERSION} \
+           ${CIRCLE_TAG} \
            /tmp/workspace/out/
 
 
