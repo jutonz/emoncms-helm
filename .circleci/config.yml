@@ -6,6 +6,7 @@ jobs:
     - image: lachlanevenson/k8s-helm
     steps:
     - checkout
+    - run: helm init --client-only
     - run: helm lint .
 
   package:
@@ -14,6 +15,7 @@ jobs:
     - image: lachlanevenson/k8s-helm
     steps:
     - checkout
+    - run: helm init --client-only
     - run: helm package .
 
 workflows:
