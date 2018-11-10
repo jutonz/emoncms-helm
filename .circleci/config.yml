@@ -1,18 +1,21 @@
 version: 2
-jobs:
-  lint:
+
+executors:
+  helm:
     working_directory: ~/emoncms
     docker:
     - image: lachlanevenson/k8s-helm
+
+jobs:
+  lint:
+    executor: helm
     steps:
     - checkout
     - run: helm init --client-only
     - run: helm lint .
 
   package:
-    working_directory: ~/emoncms
-    docker:
-    - image: lachlanevenson/k8s-helm
+    executor: helm
     steps:
     - checkout
     - run: helm init --client-only
