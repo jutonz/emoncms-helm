@@ -1,0 +1,64 @@
+version: 2.1
+
+executors:
+  helm:
+    working_directory: ~/emoncms
+    docker:
+    - image: lachlanevenson/k8s-helm
+
+jobs:
+  lint:
+    executor: helm
+    steps:
+    - checkout
+    - run: helm init --client-only
+    - run: helm lint .
+
+  package:
+    executor: helm
+    steps:
+    - checkout
+    - run: helm init --client-only
+    - run:
+        name: helm package
+        command: |
+          mkdir out
+          helm package . --destination out/
+    - persist_to_workspace:
+        root: .
+        paths: out
+
+  publish:
+    docker:
+    - image: cibuilds/github:0.10
+    steps:
+    - checkout
+    - attach_workspace:
+        at: /tmp/workspace
+    - run:
+        name: Publish to github
+        command: |
+           ghr \
+           -t ${GITHUB_TOKEN} \
+           -u ${CIRCLE_PROJECT_USERNAME} \
+           -r ${CIRCLE_PROJECT_REPONAME} \
+           -c ${CIRCLE_SHA1} \
+           -delete \
+           ${CIRCLE_TAG} \
+           /tmp/workspace/out/
+
+
+workflows:
+  version: 2
+  lint:
+    jobs:
+    - lint
+    - package:
+        requires: ["lint"]
+    - publish:
+        requires: ["package"]
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^v\d+\.\d+\.\d+$/
