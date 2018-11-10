@@ -21,7 +21,7 @@ jobs:
     - run: helm init --client-only
     - run:
         name: helm package
-        commands: |
+        command: |
           mkdir out
           helm package . --destination out/
     - persist_to_workspace:
