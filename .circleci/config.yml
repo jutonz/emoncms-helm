@@ -1,6 +1,7 @@
 version: 2
 jobs:
   lint:
+    working_directory: ~/emoncms
     docker:
     - image: lachlanevenson/k8s-helm
     steps:
