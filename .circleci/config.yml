@@ -19,7 +19,10 @@ jobs:
     steps:
     - checkout
     - run: helm init --client-only
-    - run: helm package .
+    - run: helm package . --destination out/
+    - persist_to_workspace:
+        root: workspace
+        paths: out
 
 workflows:
   version: 2
