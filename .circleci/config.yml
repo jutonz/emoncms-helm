@@ -35,7 +35,7 @@ jobs:
     - checkout
     - attach_workspace:
         at: /tmp/workspace
-    - run: ls -alh /tmp/workspace/
+    - run: tree /tmp/workspace
 
 workflows:
   version: 2
