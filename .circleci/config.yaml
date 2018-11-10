@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  lint:
+    docker:
+    - image: lachlanevenson/k8s-helm
+    steps:
+    - checkout
+    - run: helm lint .
+
+workflows:
+  version: 2
+  lint:
+    jobs:
+    - lint
