@@ -6,11 +6,20 @@ jobs:
     - image: lachlanevenson/k8s-helm
     steps:
     - checkout
-    - run: helm version
     - run: helm lint .
+
+  package:
+    working_directory: ~/emoncms
+    docker:
+    - image: lachlanevenson/k8s-helm
+    steps:
+    - checkout
+    - run: helm package .
 
 workflows:
   version: 2
   lint:
     jobs:
     - lint
+    - package:
+        requires: ["lint"]
