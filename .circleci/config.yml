@@ -25,6 +25,7 @@ jobs:
           mkdir out
           helm package . --destination out/
     - persist_to_workspace:
+        root: .
         paths: out
 
 workflows:
