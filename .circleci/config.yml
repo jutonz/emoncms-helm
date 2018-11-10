@@ -19,7 +19,11 @@ jobs:
     steps:
     - checkout
     - run: helm init --client-only
-    - run: helm package . --destination out/
+    - run:
+        name: helm package
+        commands: |
+          mkdir out
+          helm package . --destination out/
     - persist_to_workspace:
         root: workspace
         paths: out
