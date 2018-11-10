@@ -6,6 +6,7 @@ jobs:
     - image: lachlanevenson/k8s-helm
     steps:
     - checkout
+    - run: helm version
     - run: helm lint .
 
 workflows:
