@@ -58,3 +58,8 @@ workflows:
         requires: ["lint"]
     - publish:
         requires: ["package"]
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^v\d+\.\d+\.\d+$/
